@@ -1,0 +1,15 @@
+metrics to measure:
+fps counter
+min fps over 5 seconds or so
+avg fps over 5 seconds
+avg bottom 1% fps
+median fps
+
+maybe a profiler that shows where this time is going, like actual functions.
+
+
+
+
+
+
+
