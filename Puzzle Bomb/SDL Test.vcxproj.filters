@@ -43,6 +43,12 @@
     <Filter Include="Source Files\Puzzles">
       <UniqueIdentifier>{1b916431-41d8-4251-ac38-2ed22b309f81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Engine\Object\Animation">
+      <UniqueIdentifier>{45487878-4c80-4909-9329-b159357afe64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Object\Animation">
+      <UniqueIdentifier>{472b591b-bf42-45d4-b499-c13085487410}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -110,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="BombRush.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files\Engine\Object\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="BombRush.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Header Files\Engine\Object\Animation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

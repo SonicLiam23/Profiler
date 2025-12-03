@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <iostream>
 
 //#if defined _DEBUG
 
@@ -19,18 +20,19 @@
 
 //#endif
 
-#include <iostream>
 
 struct Log
 {
 	template <typename T>
 	static void LogText(const char* file, int line, T text);
 
-	template <typename T>
-	static void LogTextMinimal(T text);
 
 	template <typename T>
-	static void LogTextConsole(T text);
+	static void LogTextMinimal(const T text);
+
+	
+	template <typename T>
+	static void LogTextConsole(const T text);
 	
 
 	static void EndLog()
@@ -54,24 +56,31 @@ inline void Log::LogText(const char* file, int line, T text)
 	}
 	catch(...) {}
 }
-
 template <typename T>
-inline void Log::LogTextMinimal(T text)
+inline void Log::LogTextMinimal(const T text)
 {
 	try
 	{
 		if (!file.is_open())
 		{
-			file.open("log.txt");
+			file.open("log.txt", std::ios::app);
 		}
 		std::cout << text << std::endl;
 		file << text << "\n";
+		file.close();
 	}
-	catch(...) {}
+	catch(...) 
+	{
+		while (true)
+		{
+			std::cout << "iodhfjkidshdfs\n";
+		}
+	}
 }
 
+
 template<typename T>
-inline void Log::LogTextConsole(T text)
+inline void Log::LogTextConsole(const T text)
 {
 	try
 	{
@@ -79,3 +88,4 @@ inline void Log::LogTextConsole(T text)
 	}
 	catch (...) {}
 }
+

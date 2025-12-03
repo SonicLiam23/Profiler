@@ -1,5 +1,6 @@
 #pragma once
 #include "Slab.h"
+#include "ManagerSettings.h"
 #include <vector>
 #include <cstddef>
 #include <cassert>
@@ -19,12 +20,16 @@ private:
     void* nextPtr = nullptr;
     uintptr_t endOfMemory;
 
-    static constexpr size_t BLOCK_SIZE = 65536;
-
     MemoryManager();
     void CreateNewBlock(size_t minSizeBytes);
     Slab* CreateNewSlab(size_t chunkSize, size_t slabSizeBytes = BLOCK_SIZE);
     size_t SizeToClass(size_t size);
+
+    void AddToPartialList(size_t idx, Slab* slab);
+    void RemoveFromPartialList(size_t idx, Slab* slab);
+    void AddToFullList(size_t idx, Slab* slab);
+    void RemoveFromFullList(size_t idx, Slab* slab);
+    Slab* PickPartialSlab(size_t classIdx);
 
 #ifdef _DEBUG
     bool PointerInBlocks(void* ptr);
@@ -33,6 +38,7 @@ private:
     static MemoryManager* s_instance;
 
 public:
+    static size_t fragmentedBytes;
     static MemoryManager* Get();
     void* AllocateRaw(size_t size);
     void DeallocateRaw(void* chunk);

@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <cassert>
 #include <new>
+// #define CORRECT_REUSE_CHECK
 
 struct Slab
 {
@@ -19,6 +20,7 @@ struct Slab
 
     struct ChunkNode
     {
+        size_t dataSize;
         ChunkNode* next;
         Slab* parentSlab;
     };
@@ -26,7 +28,10 @@ struct Slab
     ChunkNode* freeListHead;
 
     Slab* nextPartial = nullptr;
+    Slab* prevPartial = nullptr;
+
     Slab* nextFull = nullptr;
+    Slab* prevFull = nullptr;
 
     void* Allocate();
     void DeallocateRaw(void* chunk);

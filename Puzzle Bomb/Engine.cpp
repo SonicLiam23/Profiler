@@ -30,7 +30,7 @@ Engine::Engine() : m_Running(false)
 // i dont like how "complex" this has become, but make it work before you make it pretty, right :D
 void Engine::Update()
 {
-	std::cout << "\033[H";
+	std::cout << "\033[H\n\n";
 	std::chrono::steady_clock::time_point frameStart = UpdateLoopTimer->Start();
 
 	
@@ -63,7 +63,8 @@ void Engine::Update()
 		profileDataSS << "Harmonic Mean FPS: " << frameProfiler->GetHarmonicMeanFPS() << "\n";
 		profileDataSS << "Low 1% FPS: " << frameProfiler->GetAvgLowOnePercent() << "\n";
 		profileDataSS << "Min FPS: " << frameProfiler->GetMinFPS() << "\n";
-		profileDataSS << "Total Allocations" << ManagedMemory::allocations << "\n";
+		profileDataSS << "Total Allocations: " << ManagedMemory::allocations << "\n";
+		profileDataSS << "Total Fragmentation in chunks: " << MemoryManager::fragmentedBytes << "\n";
 	}
 	LOGTEXTC(profileDataSS.str());
 
@@ -75,8 +76,8 @@ void Engine::Update()
 
 
 	const float targetMs = 1000.0f / fpsTarget;
-	if (deltaTime < targetMs)
-		SDL_Delay(targetMs - deltaTime);
+	//if (deltaTime < targetMs)
+		//SDL_Delay(targetMs - deltaTime);
 
 	InputManager::Get()->Update();
 }
@@ -120,11 +121,10 @@ void Engine::Uninit()
 
 	LOGTEXTM(profileDataSS.str());
 
-	for (int i = 0; !m_Objects.empty(); ++i)
+	while (!m_Objects.empty())
 	{
-
-			delete m_Objects.back();
-			m_Objects.pop_back();		
+		delete m_Objects.back();
+		m_Objects.pop_back();		
 	}
 
 	profileDataSS.str("");

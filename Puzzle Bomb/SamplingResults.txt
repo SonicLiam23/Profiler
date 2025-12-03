@@ -1,0 +1,5 @@
+Function:  was caught 1319 times.
+Function: _NLG_Return2 was caught 5 times.
+Function: memmove was caught 5 times.
+Function: memset was caught 30 times.
+

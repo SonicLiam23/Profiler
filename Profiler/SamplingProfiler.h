@@ -1,6 +1,6 @@
 #pragma once
 #include <windows.h>
-#include <vector>
+#include <map>
 #include <chrono>
 #include <thread>
 
@@ -10,7 +10,7 @@ class SamplingProfiler
 	HANDLE m_threadHandle;
 	std::chrono::milliseconds m_captureIntervalMs;
 	std::thread m_samplingThread;
-	std::vector<std::pair<void*, int>> m_funcPtrs;
+	std::map<void*, int> m_funcPtrs;
 	void SampleThread();
 	bool m_loopCondition;
 	
