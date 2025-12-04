@@ -59,10 +59,48 @@ void SamplingProfiler::SampleThread()
 	resultFile.close();
 }
 
+// i think there is quite a bit of explaining...
+// so this isn't actually run at sample, only at the end when im resolving function names.
+// because of the case where im in a function with no unwind metadata (e.g leaf functions)
+// i need to call SymFromAddr(), which is slow so i do NOT want to be doing it during the
+// sampling. hence why i call it at the end.
+// so "funcPtrs" is slightly misleading, as it *could* be pointing to a line inside the function
+// but this IS resolved in here, called in End()!
+//
+// tl;dr not ran during sampling but after, so I'm not too bothered about its poor performance.
+void* SamplingProfiler::GetFuncStartPtr(void* rip)
+{
+	DWORD64 base;
+
+	PRUNTIME_FUNCTION functionPtr = RtlLookupFunctionEntry((DWORD64)rip, &base, nullptr);
+	if (functionPtr)
+		return (void*)(base + functionPtr->BeginAddress);
+
+	// fallback to symbols if there is no unwind info
+	char buffer[MAX_PATH];
+	SYMBOL_INFO* symbol = (SYMBOL_INFO*)malloc(sizeof(SYMBOL_INFO) + 256);
+	symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+	symbol->MaxNameLen = 255;
+
+	void* funcAddress;
+	if (SymFromAddr(GetCurrentProcess(), (DWORD64)rip, 0, symbol))
+	{
+		funcAddress = (void*)symbol->Address;
+	}
+	else
+	{
+		// if all else fails, default to using the rip
+		funcAddress = rip;
+	}
+
+	free(symbol);
+	return funcAddress;
+
+}
+
 
 void SamplingProfiler::Start()
 {
-	//LOGTEXTM("SAMPLING START");
 	m_loopCondition = true;
 	m_samplingThread = std::thread(&SamplingProfiler::SampleThread, this);
 }
@@ -76,6 +114,8 @@ void SamplingProfiler::End()
 	}
 
 	HANDLE process = GetCurrentProcess();
+
+	SymSetOptions(SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS);
 	SymInitialize(process, NULL, TRUE);
 	char buffer[MAX_PATH];
 	GetCurrentDirectoryA(MAX_PATH, buffer);
@@ -87,26 +127,40 @@ void SamplingProfiler::End()
 	symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
 	symbol->MaxNameLen = 255;
 
-	std::stringstream out;
+	// collapse RIPs to function start addresses
+	std::map<std::string, int> countByName;
+
 	for (std::pair<void*, int> item : m_funcPtrs)
 	{
-		void* funcPtr = item.first;
-		int callCount = item.second;
-
+		std::stringstream nameSS;
+		void* funcStart = GetFuncStartPtr(item.first);
 		memset(symbol->Name, 0, symbol->MaxNameLen);
-
-		if (SymFromAddr(process, (ULONG64)funcPtr, 0, symbol))
+		if (SymFromAddr(process, (ULONG64)funcStart, 0, symbol))
 		{
-			out << "Function: " << symbol->Name << " was caught " << callCount << " times.";
+			nameSS << symbol->Name;
 		}
 		else
 		{
 			DWORD err = GetLastError();
-			out << "Function: <Unknown> at address " << funcPtr << " caught " << callCount << " times. Error Code " << err;
+			nameSS << "Error: " << "<Unknown> at address" << item.first;
 		}
 
-		out << "\n";
+		std::string name = nameSS.str();
 
+		if (countByName.find(name) == countByName.end())
+			countByName.insert({ name, 0 });
+
+		// aggregate counts
+		countByName[name] += item.second; 
+	}
+
+	std::stringstream out;
+	for (std::pair<std::string, int> item : countByName)
+	{
+		std::string funcName = item.first;
+		int callCount = item.second;
+
+		out << "Function: " << funcName << " was caught " << callCount << " time(s).\n";
 	}
 	std::ofstream resultFile;
 	resultFile.open("SamplingResults.txt", std::ios::app);
@@ -120,7 +174,7 @@ SamplingProfiler::SamplingProfiler(DWORD threadID, int captureIntervalMs) : m_co
 {
 	m_threadHandle = OpenThread(THREAD_SUSPEND_RESUME | THREAD_GET_CONTEXT, FALSE, threadID);
 	
-	m_context.ContextFlags = CONTEXT_ALL;
+	m_context.ContextFlags = CONTEXT_FULL;
 
 	m_captureIntervalMs = std::chrono::milliseconds(captureIntervalMs);
 	

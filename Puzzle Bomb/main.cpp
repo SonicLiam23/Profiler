@@ -9,10 +9,6 @@
 
 int main(int argc, char* argv[])
 {
-	
-	
-	
-
 	Engine* e = Engine::Get();
 
 	BombRush::Start();
@@ -31,5 +27,4 @@ int main(int argc, char* argv[])
 	e->Quit();
 
 	return 0;
-
 }

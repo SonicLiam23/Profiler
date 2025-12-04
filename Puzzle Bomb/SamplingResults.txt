@@ -1,5 +1,309 @@
-Function:  was caught 1319 times.
-Function: _NLG_Return2 was caught 5 times.
-Function: memmove was caught 5 times.
-Function: memset was caught 30 times.
+Function: AreFileApisANSI was caught 2 time(s).
+Function: CallWindowProcW was caught 1 time(s).
+Function: Cnd_unregister_at_thread_exit was caught 2 time(s).
+Function: CreateFileW was caught 1 time(s).
+Function: CrtGetDebugFillThreshold was caught 1 time(s).
+Function: CrtSetDbgBlockType was caught 2 time(s).
+Function: Direct3DShaderValidatorCreate9 was caught 2 time(s).
+Function: DwmpDxGetWindowSharedSurface was caught 1 time(s).
+Function: Engine::Update was caught 3 time(s).
+Function: Error: <Unknown> at address00007FF824B9C858 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FF824B9EA10 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FF824BABDFF was caught 1 time(s).
+Function: Error: <Unknown> at address00007FF824BABE16 was caught 2 time(s).
+Function: Error: <Unknown> at address00007FF824BABE1D was caught 1 time(s).
+Function: Error: <Unknown> at address00007FF824BAC47B was caught 1 time(s).
+Function: Error: <Unknown> at address00007FF824BB1C30 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FF824BB1E5B was caught 1 time(s).
+Function: Error: <Unknown> at address00007FF824BB20B8 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FF824BB2CC0 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FF824BB3214 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FF824BB3220 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FF824BB322C was caught 1 time(s).
+Function: Error: <Unknown> at address00007FF824BB3242 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FF824BB39B4 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FF83E495591 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FF83E49560A was caught 1 time(s).
+Function: Error: <Unknown> at address00007FF8442E80C0 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFEFD2E40C0 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFF03B81219 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFF03B82340 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFF5E2C2720 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC50C6415 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC50C656A was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC50D6510 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC50D7B11 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC50D7BB0 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC50D805E was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC50F5B10 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC5137848 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC51D46CD was caught 31 time(s).
+Function: Error: <Unknown> at address00007FFFC51D5516 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC51D768D was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC51D7A20 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC51D9F6B was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC51D9F7B was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC51DA05F was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC51DA323 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC51DB701 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC51DEF51 was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC51DF15E was caught 1 time(s).
+Function: Error: <Unknown> at address00007FFFC525F0CD was caught 1 time(s).
+Function: GdiEntry13 was caught 1 time(s).
+Function: GetDriveTypeW was caught 4 time(s).
+Function: GetFileType was caught 1 time(s).
+Function: GetLastError was caught 1 time(s).
+Function: GetPropW was caught 1 time(s).
+Function: GetSystemMetrics was caught 1 time(s).
+Function: GetTickCount was caught 1 time(s).
+Function: GetWindowCompositionAttribute was caught 1 time(s).
+Function: HeapValidate was caught 1 time(s).
+Function: ILT+1340(??$?GUsteady_clockchronostdV?$duration_JU?$ratio$00$0DLJKMKAAstd was caught 1 time(s).
+Function: ILT+1535(?StopManualTimerQEAA?AV?$time_pointUsteady_clockchronostdV?$duration_JU?$ratio$00$0DLJKMKAAstd was caught 1 time(s).
+Function: ILT+290(??$endlDU?$char_traitsDstdstdYAAEAV?$basic_ostreamDU?$char_traitsDstd was caught 1 time(s).
+Function: ILT+3200(?deallocate?$_Default_allocator_traitsV?$allocatorU_Container_proxystdstdstdSAXAEAV?$allocatorU_Container_proxystd was caught 1 time(s).
+Function: ILT+4070(??$_Alloc_proxyV?$allocatorU_Container_proxystdstd_Container_base12stdQEAAX$$QEAV?$allocatorU_Container_proxystd was caught 1 time(s).
+Function: ILT+4540(?_Init?$basic_filebufDU?$char_traitsDstdstdIEAAXPEAU_iobufW4_Initfl was caught 1 time(s).
+Function: ILT+4730(?_Get_data?$dequeUFrameInfoV?$allocatorUFrameInfostdstdAEAAAEAV?$_Deque_valU?$_Deque_simple_typesUFrameInfostd was caught 1 time(s).
+Function: ILT+5965(_RTC_CheckStackVars) was caught 1 time(s).
+Function: ILT+6030(??$_Deallocate$0BAstdYAXPEAX_KZ) was caught 1 time(s).
+Function: ILT+6875(?RenderImageObjectUEAAXXZ) was caught 2 time(s).
+Function: ILT+7865(?_Getal?$basic_stringDU?$char_traitsDstdV?$allocatorD was caught 1 time(s).
+Function: Image::GetTexture was caught 1 time(s).
+Function: InputManager::Update was caught 3 time(s).
+Function: Log::LogTextConsole<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > was caught 1 time(s).
+Function: Log::LogTextMinimal<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > was caught 1 time(s).
+Function: ManualTimer::Stop was caught 3 time(s).
+Function: MultiByteToWideChar was caught 3 time(s).
+Function: NtClose was caught 703 time(s).
+Function: NtCreateFile was caught 1868 time(s).
+Function: NtGdiDdDDICreateAllocation was caught 2 time(s).
+Function: NtGdiExcludeClipRect was caught 1 time(s).
+Function: NtReleaseSemaphore was caught 23 time(s).
+Function: NtSetInformationFile was caught 6 time(s).
+Function: NtUserCalcMenuBar was caught 8 time(s).
+Function: NtUserDrainThreadCoreMessagingCompletions2 was caught 2 time(s).
+Function: NtUserGetClipCursor was caught 2 time(s).
+Function: NtUserGetCurrentInputMessageSource was caught 1 time(s).
+Function: NtUserGetDCEx was caught 9 time(s).
+Function: NtUserGetKeyState was caught 1 time(s).
+Function: NtUserGetProp was caught 5 time(s).
+Function: NtUserGetProp2 was caught 27 time(s).
+Function: NtUserGetThreadState was caught 19 time(s).
+Function: NtUserGetUpdateRect was caught 7 time(s).
+Function: NtUserGetWindowCompositionAttribute was caught 3 time(s).
+Function: NtUserHwndQueryRedirectionInfo was caught 18 time(s).
+Function: NtUserInvalidateRect was caught 2 time(s).
+Function: NtUserIsNonClientDpiScalingEnabled was caught 6 time(s).
+Function: NtUserIsTopLevelWindow was caught 9 time(s).
+Function: NtUserMessageCall was caught 216 time(s).
+Function: NtUserPeekMessage was caught 144 time(s).
+Function: NtUserPostMessage was caught 1 time(s).
+Function: NtUserReleaseCapture was caught 1 time(s).
+Function: NtUserReleaseDC was caught 3 time(s).
+Function: NtUserSetCursor was caught 34 time(s).
+Function: NtUserTranslateMessage was caught 1 time(s).
+Function: NtUserValidateRect was caught 9 time(s).
+Function: NtWaitForSingleObject was caught 812 time(s).
+Function: NtWriteFile was caught 1305 time(s).
+Function: PeekMessageW was caught 4 time(s).
+Function: Puzzle::Update was caught 1 time(s).
+Function: QueryPerformanceCounter was caught 2 time(s).
+Function: Query_perf_frequency was caught 3 time(s).
+Function: RtlAllocateHeap was caught 31 time(s).
+Function: RtlAnsiCharToUnicodeChar was caught 1 time(s).
+Function: RtlDosApplyFileIsolationRedirection_Ustr was caught 11 time(s).
+Function: RtlDosPathNameToRelativeNtPathName_U_WithStatus was caught 2 time(s).
+Function: RtlEnterCriticalSection was caught 9 time(s).
+Function: RtlEqualUnicodeString was caught 3 time(s).
+Function: RtlFlsGetValue was caught 6 time(s).
+Function: RtlFreeHeap was caught 15 time(s).
+Function: RtlGetCurrentServiceSessionId was caught 2 time(s).
+Function: RtlInitUnicodeStringEx was caught 1 time(s).
+Function: RtlLeaveCriticalSection was caught 13 time(s).
+Function: RtlQueryPerformanceCounter was caught 4 time(s).
+Function: RtlRestoreLastWin32Error was caught 3 time(s).
+Function: RtlUpcaseUnicodeString was caught 1 time(s).
+Function: RtlValidateHeap was caught 4 time(s).
+Function: SDL_GetScancodeFromKey was caught 2 time(s).
+Function: SDL_RenderCopy was caught 1 time(s).
+Function: SDL_wcsstr was caught 24 time(s).
+Function: SbSelectProcedure was caught 2 time(s).
+Function: SetDependencyInfo was caught 1 time(s).
+Function: SetFilePointerEx was caught 2 time(s).
+Function: SetLastError was caught 1 time(s).
+Function: Unlock_shared_ptr_spin_lock was caught 10 time(s).
+Function: WTSGetServiceSessionId was caught 1 time(s).
+Function: WaitForSingleObjectEx was caught 1 time(s).
+Function: WriteFile was caught 1 time(s).
+Function: ZwQueryInformationFile was caught 73 time(s).
+Function: ZwQueryKey was caught 1 time(s).
+Function: ZwQueryVolumeInformationFile was caught 22 time(s).
+Function: ZwReadFile was caught 2 time(s).
+Function: _Atexit was caught 4 time(s).
+Function: _NLG_Return2 was caught 3 time(s).
+Function: _RTC_CheckStackVars was caught 5 time(s).
+Function: __CheckForDebuggerJustMyCode was caught 18 time(s).
+Function: __security_check_cookie was caught 2 time(s).
+Function: _acrt_iob_func was caught 2 time(s).
+Function: _conio_common_vcwprintf_p was caught 19 time(s).
+Function: _intrinsic_setjmpex was caught 2 time(s).
+Function: _p__commode was caught 11 time(s).
+Function: _report_gsfailure was caught 2 time(s).
+Function: _std_exception_destroy was caught 2 time(s).
+Function: _uncaught_exception was caught 3 time(s).
+Function: _uncaught_exceptions was caught 1 time(s).
+Function: c32rtomb was caught 8 time(s).
+Function: cgetws was caught 4 time(s).
+Function: clearerr_s was caught 1 time(s).
+Function: close was caught 2 time(s).
+Function: cputws was caught 3 time(s).
+Function: fclose was caught 5 time(s).
+Function: fcloseall was caught 2 time(s).
+Function: ferror was caught 3 time(s).
+Function: fflush was caught 1 time(s).
+Function: fileno was caught 3 time(s).
+Function: fputc_nolock was caught 1 time(s).
+Function: free was caught 1 time(s).
+Function: free_base was caught 1 time(s).
+Function: free_dbg was caught 3 time(s).
+Function: fsetpos was caught 1 time(s).
+Function: ftell was caught 2 time(s).
+Function: fwrite was caught 4 time(s).
+Function: fwrite_nolock was caught 1 time(s).
+Function: get_fmode was caught 1 time(s).
+Function: get_wide_winmain_command_line was caught 3 time(s).
+Function: getwchar was caught 1 time(s).
+Function: isatty was caught 3 time(s).
+Function: isxdigit was caught 2 time(s).
+Function: ldtest was caught 1 time(s).
+Function: localeconv was caught 2 time(s).
+Function: lock_file was caught 2 time(s).
+Function: lock_locales was caught 2 time(s).
+Function: locking was caught 1 time(s).
+Function: log10 was caught 3 time(s).
+Function: lseeki64 was caught 2 time(s).
+Function: memcpy was caught 2 time(s).
+Function: memmove was caught 3 time(s).
+Function: memset was caught 15 time(s).
+Function: o_memset was caught 1 time(s).
+Function: operator delete was caught 1 time(s).
+Function: operator new was caught 1 time(s).
+Function: pipe was caught 1 time(s).
+Function: putchar was caught 1 time(s).
+Function: recalloc was caught 3 time(s).
+Function: recalloc_dbg was caught 17 time(s).
+Function: set_app_type was caught 13 time(s).
+Function: set_new_mode was caught 3 time(s).
+Function: set_se_translator was caught 2 time(s).
+Function: setvbuf was caught 1 time(s).
+Function: std::_Char_traits<char,int>::copy was caught 1 time(s).
+Function: std::_Compressed_pair<std::allocator<FrameInfo>,std::_Deque_val<std::_Deque_simple_types<FrameInfo> >,1>::_Get_first was caught 1 time(s).
+Function: std::_Compressed_pair<std::allocator<char>,std::_String_val<std::_Simple_types<char> >,1>::_Get_first was caught 1 time(s).
+Function: std::_Container_base12::_Container_base12 was caught 2 time(s).
+Function: std::_Crt_new_delete::operator new was caught 1 time(s).
+Function: std::_Deallocate<16> was caught 1 time(s).
+Function: std::_Default_allocator_traits<std::allocator<std::_Container_proxy> >::deallocate was caught 1 time(s).
+Function: std::_Delete_plain_internal<std::allocator<std::_Container_proxy> > was caught 1 time(s).
+Function: std::_Fiopen was caught 1 time(s).
+Function: std::_Get_size_of_n<16> was caught 1 time(s).
+Function: std::_Get_size_of_n<1> was caught 3 time(s).
+Function: std::_Insert_string<char,std::char_traits<char>,unsigned __int64> was caught 6 time(s).
+Function: std::_Locinfo::_Getdays was caught 1 time(s).
+Function: std::_Narrow_char_traits<char,int>::assign was caught 2 time(s).
+Function: std::_Narrow_char_traits<char,int>::length was caught 1 time(s).
+Function: std::_String_val<std::_Simple_types<char> >::_Bxty::_Switch_to_buf was caught 1 time(s).
+Function: std::_String_val<std::_Simple_types<char> >::_Myptr was caught 1 time(s).
+Function: std::_Unfancy<char> was caught 1 time(s).
+Function: std::_Unfancy_maybe_null<ObjectBase *> was caught 1 time(s).
+Function: std::addressof<char> was caught 1 time(s).
+Function: std::allocator<char>::deallocate was caught 1 time(s).
+Function: std::allocator<std::_Container_proxy>::allocator<std::_Container_proxy><char> was caught 1 time(s).
+Function: std::basic_filebuf<char,std::char_traits<char> >::_Init was caught 1 time(s).
+Function: std::basic_filebuf<char,std::char_traits<char> >::_Lock was caught 1 time(s).
+Function: std::basic_filebuf<char,std::char_traits<char> >::open was caught 1 time(s).
+Function: std::basic_ios<char,std::char_traits<char> >::clear was caught 2 time(s).
+Function: std::basic_ios<char,std::char_traits<char> >::rdbuf was caught 2 time(s).
+Function: std::basic_ios<char,std::char_traits<char> >::tie was caught 6 time(s).
+Function: std::basic_ios<char,std::char_traits<char> >::widen was caught 3 time(s).
+Function: std::basic_iostream<char,std::char_traits<char> >::basic_iostream<char,std::char_traits<char> > was caught 2 time(s).
+Function: std::basic_ostream<char,std::char_traits<char> >::_Osfx was caught 1 time(s).
+Function: std::basic_ostream<char,std::char_traits<char> >::basic_ostream<char,std::char_traits<char> > was caught 1 time(s).
+Function: std::basic_ostream<char,std::char_traits<char> >::operator<< was caught 2 time(s).
+Function: std::basic_ostream<char,std::char_traits<char> >::sentry::sentry was caught 2 time(s).
+Function: std::basic_ostream<char,std::char_traits<char> >::sentry::~sentry was caught 1 time(s).
+Function: std::basic_ostream<wchar_t,std::char_traits<wchar_t> >::write was caught 6 time(s).
+Function: std::basic_streambuf<char,std::char_traits<char> >::_Init was caught 1 time(s).
+Function: std::basic_streambuf<char,std::char_traits<char> >::_Lock was caught 1 time(s).
+Function: std::basic_streambuf<char,std::char_traits<char> >::_Pnavail was caught 1 time(s).
+Function: std::basic_streambuf<char,std::char_traits<char> >::eback was caught 3 time(s).
+Function: std::basic_streambuf<char,std::char_traits<char> >::epptr was caught 3 time(s).
+Function: std::basic_streambuf<char,std::char_traits<char> >::getloc was caught 1 time(s).
+Function: std::basic_streambuf<char,std::char_traits<char> >::gptr was caught 1 time(s).
+Function: std::basic_streambuf<char,std::char_traits<char> >::pbase was caught 1 time(s).
+Function: std::basic_streambuf<char,std::char_traits<char> >::setg was caught 2 time(s).
+Function: std::basic_streambuf<char,std::char_traits<char> >::setp was caught 3 time(s).
+Function: std::basic_streambuf<char,std::char_traits<char> >::sputn was caught 1 time(s).
+Function: std::basic_streambuf<char,std::char_traits<char> >::xsgetn was caught 3 time(s).
+Function: std::basic_streambuf<char,std::char_traits<char> >::xsputn was caught 1 time(s).
+Function: std::basic_streambuf<char,std::char_traits<char> >::~basic_streambuf<char,std::char_traits<char> > was caught 1 time(s).
+Function: std::basic_string<char,std::char_traits<char>,std::allocator<char> >::_Calculate_growth was caught 1 time(s).
+Function: std::basic_string<char,std::char_traits<char>,std::allocator<char> >::_Construct_empty was caught 1 time(s).
+Function: std::basic_string<char,std::char_traits<char>,std::allocator<char> >::_Getal was caught 1 time(s).
+Function: std::basic_string<char,std::char_traits<char>,std::allocator<char> >::size was caught 1 time(s).
+Function: std::basic_string<char,std::char_traits<char>,std::allocator<char> >::~basic_string<char,std::char_traits<char>,std::allocator<char> > was caught 3 time(s).
+Function: std::basic_stringbuf<char,std::char_traits<char>,std::allocator<char> >::_Getstate was caught 1 time(s).
+Function: std::basic_stringbuf<char,std::char_traits<char>,std::allocator<char> >::basic_stringbuf<char,std::char_traits<char>,std::allocator<char> > was caught 1 time(s).
+Function: std::basic_stringbuf<char,std::char_traits<char>,std::allocator<char> >::overflow was caught 3 time(s).
+Function: std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> >::__autoclassinit2 was caught 1 time(s).
+Function: std::basic_stringstream<char,std::char_traits<char>,std::allocator<char> >::~basic_stringstream<char,std::char_traits<char>,std::allocator<char> > was caught 1 time(s).
+Function: std::chrono::duration_cast<std::chrono::duration<float,std::ratio<1,1000> >,__int64,std::ratio<1,1000000000>,0> was caught 2 time(s).
+Function: std::chrono::steady_clock::now was caught 2 time(s).
+Function: std::codecvt<char,char,_Mbstatet>::do_always_noconv was caught 1 time(s).
+Function: std::codecvt<wchar_t,char,_Mbstatet>::out was caught 1 time(s).
+Function: std::codecvt_base::always_noconv was caught 1 time(s).
+Function: std::codecvt_base::max_length was caught 1 time(s).
+Function: std::ctype<wchar_t>::is was caught 1 time(s).
+Function: std::ctype<wchar_t>::narrow was caught 1 time(s).
+Function: std::deque<FrameInfo,std::allocator<FrameInfo> >::_Get_data was caught 1 time(s).
+Function: std::deque<FrameInfo,std::allocator<FrameInfo> >::front was caught 1 time(s).
+Function: std::deque<FrameInfo,std::allocator<FrameInfo> >::push_back was caught 1 time(s).
+Function: std::endl<char,std::char_traits<char> > was caught 1 time(s).
+Function: std::exchange<std::_Iterator_base12 *,std::nullptr_t> was caught 1 time(s).
+Function: std::ios_base::Init::Init was caught 1 time(s).
+Function: std::ios_base::_Callfns was caught 2 time(s).
+Function: std::ios_base::_Ios_base_dtor was caught 1 time(s).
+Function: std::ios_base::_Tidy was caught 1 time(s).
+Function: std::ios_base::copyfmt was caught 1 time(s).
+Function: std::ios_base::flags was caught 1 time(s).
+Function: std::ios_base::good was caught 1 time(s).
+Function: std::ios_base::ios_base was caught 4 time(s).
+Function: std::ios_base::rdstate was caught 1 time(s).
+Function: std::ios_base::width was caught 2 time(s).
+Function: std::ios_base::~ios_base was caught 4 time(s).
+Function: std::locale::_Init was caught 2 time(s).
+Function: std::locale::facet::_Decref was caught 2 time(s).
+Function: std::locale::facet::_Incref was caught 3 time(s).
+Function: std::locale::global was caught 1 time(s).
+Function: std::max<char *> was caught 1 time(s).
+Function: std::num_get<char,std::istreambuf_iterator<char,std::char_traits<char> > >::do_get was caught 1 time(s).
+Function: std::num_put<char,std::ostreambuf_iterator<char,std::char_traits<char> > >::_Put was caught 1 time(s).
+Function: std::num_put<char,std::ostreambuf_iterator<char,std::char_traits<char> > >::_Rep was caught 2 time(s).
+Function: std::num_put<char,std::ostreambuf_iterator<char,std::char_traits<char> > >::do_put was caught 1 time(s).
+Function: std::num_put<char,std::ostreambuf_iterator<char,std::char_traits<char> > >::~num_put<char,std::ostreambuf_iterator<char,std::char_traits<char> > > was caught 1 time(s).
+Function: std::operator<<<std::char_traits<char> > was caught 2 time(s).
+Function: std::time_base::`default constructor closure' was caught 1 time(s).
+Function: std::time_base::time_base was caught 1 time(s).
+Function: std::uncaught_exception was caught 4 time(s).
+Function: strcspn was caught 4 time(s).
+Function: strlen was caught 1 time(s).
+Function: tsfGetKeyboardState was caught 1 time(s).
+Function: umask_s was caught 1 time(s).
+Function: ungetwch_nolock was caught 1 time(s).
+Function: unlock_file was caught 4 time(s).
+Function: unlock_locales was caught 2 time(s).
+Function: wchdir was caught 1 time(s).
+Function: wmktemp_s was caught 3 time(s).
+Function: write was caught 1 time(s).
+Function: wsopen_s was caught 4 time(s).
 

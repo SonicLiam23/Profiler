@@ -13,6 +13,7 @@ class SamplingProfiler
 	std::map<void*, int> m_funcPtrs;
 	void SampleThread();
 	bool m_loopCondition;
+	void* GetFuncStartPtr(void* rip);
 	
 public:
 	void Start();

@@ -102,6 +102,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <OmitFramePointers>false</OmitFramePointers>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -117,6 +118,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <OmitFramePointers>false</OmitFramePointers>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,12 +128,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="FrameProfiler.h" />
+    <ClInclude Include="FuncNode.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="SamplingProfiler.h" />
     <ClInclude Include="Timers.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameProfiler.cpp" />
+    <ClCompile Include="FuncNode.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="SamplingProfiler.cpp" />
     <ClCompile Include="Timers.cpp" />

@@ -64,6 +64,7 @@ void Engine::Update()
 		profileDataSS << "Low 1% FPS: " << frameProfiler->GetAvgLowOnePercent() << "\n";
 		profileDataSS << "Min FPS: " << frameProfiler->GetMinFPS() << "\n";
 		profileDataSS << "Total Allocations: " << ManagedMemory::allocations << "\n";
+		// this is not the total fragmentation, but instead a total of the "lost" data per chunk. If a chunk size is 64 and we allocated 60, 4 bytes would be lost.
 		profileDataSS << "Total Fragmentation in chunks: " << MemoryManager::fragmentedBytes << "\n";
 	}
 	LOGTEXTC(profileDataSS.str());
@@ -130,14 +131,15 @@ void Engine::Uninit()
 	profileDataSS.str("");
 	profileDataSS << "Allocations after Uninit: " << ManagedMemory::allocations;
 	LOGTEXTM(profileDataSS.str());
+	
 
-	SDLClasses::DeleteAll();
-	delete UpdateLoopTimer;
-	delete frameProfiler;
 }
 
 void Engine::Quit()
 {
+	SDLClasses::DeleteAll();
+	delete UpdateLoopTimer;
+	delete frameProfiler;
 	SDL_Quit();
 }
 

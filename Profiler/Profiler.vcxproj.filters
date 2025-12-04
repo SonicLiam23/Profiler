@@ -27,6 +27,9 @@
     <ClInclude Include="SamplingProfiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FuncNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Timers.cpp">
@@ -39,6 +42,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SamplingProfiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FuncNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
