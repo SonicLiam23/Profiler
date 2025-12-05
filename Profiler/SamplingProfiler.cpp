@@ -1,60 +1,106 @@
 #include "SamplingProfiler.h"
 #include <thread>
 #include <chrono>
-#include <DbgHelp.h>
+#include <map>
+#include <windows.h>
 #include "Log.h"
 #include <assert.h>
+#include <stack>
 
 #define TLOG(X) resultFile << X << std::endl; std::cout << X << std::endl; resultFile.close(); resultFile.open("SamplingResults.txt", std::ios::app);
 
 using namespace std::chrono_literals;
+bool SamplingProfiler::CaptureStack(CurrCallStack& outStack)
+{
+	outStack.count = 0;
+
+
+	CONTEXT ctx = {};
+	ctx.ContextFlags = CONTEXT_FULL;
+
+	if (SuspendThread(m_threadHandle) == (DWORD)-1)
+		return false;
+
+	if (!GetThreadContext(m_threadHandle, &ctx))
+	{
+		ResumeThread(m_threadHandle);
+		return false;
+	}
+
+	STACKFRAME64 frame = {};
+	frame.AddrPC.Offset = ctx.Rip;
+	frame.AddrPC.Mode = AddrModeFlat;
+	frame.AddrFrame.Offset = ctx.Rbp;
+	frame.AddrFrame.Mode = AddrModeFlat;
+	frame.AddrStack.Offset = ctx.Rsp;
+	frame.AddrStack.Mode = AddrModeFlat;
+
+	// avoid locking the thread, push_back allocates -> main thread, which is suspended -> deadlock!
+	for (int i = 0; i < MAX_FRAMES; ++i)
+	{
+		BOOL ok = StackWalk64(
+			IMAGE_FILE_MACHINE_AMD64,
+			m_process,
+			m_threadHandle,
+			&frame,
+			&ctx,
+			NULL,
+			SymFunctionTableAccess64,
+			SymGetModuleBase64,
+			NULL
+		);
+
+		if (!ok || frame.AddrPC.Offset == 0)
+			break;
+
+		uint64_t PC = frame.AddrPC.Offset;
+
+		// top 16 bits must be all 0 or all 1 on x64
+		uint64_t top = PC >> 48;
+		if (PC == 0 || top == 0xCCCC || PC == 0xFFFFFFFFFFFFFFFFULL) // quick guards
+			break;
+
+		//// if moduleBase == 0 stop
+		//DWORD64 moduleBase = SymGetModuleBase64(m_process, (DWORD64)PC);
+		//if (moduleBase == 0)
+		//{
+		//	// If no module is found technically i could just contiue but its safer to just stop
+		//	break;
+		//}
+
+		outStack.frames[outStack.count++] = (void*)frame.AddrPC.Offset;
+	}
+	DWORD resumeRes = ResumeThread(m_threadHandle);
+	if (resumeRes == (DWORD)-1)
+	{
+		// catastrophic
+		return false;
+	}
+	return true;
+}
+
 void SamplingProfiler::SampleThread()
 {
 	std::ofstream resultFile; 
 	resultFile.open("SamplingResults.txt");
-	try
+	while (m_loopCondition)
 	{
-		while (m_loopCondition)
+		CurrCallStack sample;
+		sample.count = 0;
+
+		CurrCallStack thisStack;
+		if (CaptureStack(thisStack))
 		{
-			DWORD suspend = SuspendThread(m_threadHandle);
-
-			if (suspend != 0)
+			// copy only valid frames
+			for (int i = 0; i < thisStack.count && sample.count < MAX_FRAMES; ++i)
 			{
-				TLOG("Couldnt suspend thread.");
-				return;
+				sample.frames[sample.count++] = thisStack.frames[i];
 			}
 
-			if (!GetThreadContext(m_threadHandle, &m_context))
-			{
-				TLOG("Couldnt get thread context.");
-				if (ResumeThread(m_threadHandle) == -1)
-				{
-					TLOG("Couldnt resume thread");
-				}
-				return;
-			}
-			
-
-#ifdef _WIN64
-			void* funcPtr = (void*)m_context.Rip;
-#else
-			void* funcPtr = (void*)m_context.Eip();
-#endif
-			
-			ResumeThread(m_threadHandle);
-
-			if (m_funcPtrs.find(funcPtr) == m_funcPtrs.end())
-				m_funcPtrs.insert({ funcPtr, 0 });
-
-			m_funcPtrs[funcPtr]++;
-
-			
-			std::this_thread::sleep_for(m_captureIntervalMs);
+			m_callStacks.push_back(sample);
 		}
-	}
-	catch (std::exception e)
-	{
-		TLOG(e.what());
+
+		std::this_thread::sleep_for(m_captureIntervalMs);
 	}
 	resultFile.close();
 }
@@ -83,7 +129,7 @@ void* SamplingProfiler::GetFuncStartPtr(void* rip)
 	symbol->MaxNameLen = 255;
 
 	void* funcAddress;
-	if (SymFromAddr(GetCurrentProcess(), (DWORD64)rip, 0, symbol))
+	if (SymFromAddr(m_process, (DWORD64)rip, 0, symbol))
 	{
 		funcAddress = (void*)symbol->Address;
 	}
@@ -98,10 +144,72 @@ void* SamplingProfiler::GetFuncStartPtr(void* rip)
 
 }
 
+void SamplingProfiler::PrintTreeFromNode(const FuncNode& node, PSYMBOL_INFO symbol, int totalHits, std::vector<std::string> currentPath, int depth)
+{
+	DWORD64 displacement = 0;
+	std::string funcName;
+
+	// Resolve symbol name if possible
+	if (node.functionPtr && SymFromAddr(m_process, (DWORD64)node.functionPtr, &displacement, symbol))
+		funcName = symbol->Name;
+	else if (node.functionPtr)
+		funcName = "0x" + std::to_string((uintptr_t)node.functionPtr);
+	else
+		funcName = "[root]";
+
+	currentPath.push_back(funcName);
+
+	// Collapse trivial / system frames, or ignore them (makes the graph pretty hard to read)
+	if (node.hitCount < 5 && depth > 10)
+	{
+#ifdef SAMPLE_ALL
+		std::stringstream out;
+		out << std::string(depth * 2, ' ') << funcName << ": "
+			<< node.hitCount << " hits (" << (double)node.hitCount / (double)totalHits * 100.0 << "%)";
+		TLOG(out.str());
+#endif
+		return;
+	}
+
+	// Print current node
+	if (depth > 0) // skip root itself
+	{
+		std::stringstream out;
+		out << std::string(depth * 2, ' ') << funcName
+			<< " : " << node.hitCount
+			<< " hits (" << (double)node.hitCount / (double)totalHits * 100.0 << "%)";
+		TLOG(out.str());
+	}
+
+	// flamegraph style, at the end of each "branch"
+	if (node.children.empty() && depth > 0)
+	{
+		std::stringstream flatOut;
+		for (size_t i = 0; i < currentPath.size(); ++i)
+		{
+			flatOut << currentPath[i];
+			if (i + 1 < currentPath.size())
+				flatOut << " -> ";
+		}
+		flatOut << " : " << node.hitCount << " hits (" << (double)node.hitCount / totalHits * 100.0 << "%)";
+		TLOG(flatOut.str());
+	}
+
+	for (std::pair<void* const, FuncNode> child : node.children)
+		PrintTreeFromNode(child.second, symbol, node.hitCount, currentPath, depth + 1);
+
+}
+
 
 void SamplingProfiler::Start()
 {
 	m_loopCondition = true;
+	if (!SymInitialize(m_process, nullptr, TRUE)) {
+		DWORD err = GetLastError();
+		// handle error / log err
+	}
+	SymSetOptions(SYMOPT_DEFERRED_LOADS | SYMOPT_UNDNAME);
+
 	m_samplingThread = std::thread(&SamplingProfiler::SampleThread, this);
 }
 
@@ -113,64 +221,49 @@ void SamplingProfiler::End()
 		m_samplingThread.join();
 	}
 
-	HANDLE process = GetCurrentProcess();
+	m_stackRoot = FuncNode();
 
-	SymSetOptions(SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS);
-	SymInitialize(process, NULL, TRUE);
-	char buffer[MAX_PATH];
-	GetCurrentDirectoryA(MAX_PATH, buffer);
+	for (const CurrCallStack& stack : m_callStacks)
+	{
+		FuncNode* node = &m_stackRoot;
+		
+		// the last index is "main" (or whatever external code gets main)
+		for (int i = stack.count - 1; i >= 0; --i)
+		{
+			void* funcStart = GetFuncStartPtr(stack.frames[i]);
 
-	SymSetSearchPath(process, buffer);
+			DWORD64 moduleBase = SymGetModuleBase64(m_process, (DWORD64)funcStart);
+			if (moduleBase) {
+				char moduleName[MAX_PATH] = {};
+				if (GetModuleFileNameA((HMODULE)moduleBase, moduleName, MAX_PATH)) {
+					std::string modStr = moduleName;
+					if (modStr.find("ucrt") != std::string::npos ||
+						modStr.find("kernel32") != std::string::npos ||
+						modStr.find("ntdll") != std::string::npos)
+					{
+						continue; // skip this frame
+					}
+				}
+			}
+			node = &node->children[funcStart];
+			node->functionPtr = funcStart;
+			node->hitCount++;
+		}
+	}
 
-	// as we do not know the size of the name of the function, we need to just allocate a lot
-	SYMBOL_INFO* symbol = (SYMBOL_INFO*)malloc(sizeof(SYMBOL_INFO) + 256);
+	const int MAX_NAME = 1024;
+	char buffer[sizeof(SYMBOL_INFO) + MAX_NAME];
+	PSYMBOL_INFO symbol = reinterpret_cast<PSYMBOL_INFO>(buffer);
 	symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
-	symbol->MaxNameLen = 255;
+	symbol->MaxNameLen = MAX_NAME;
 
-	// collapse RIPs to function start addresses
-	std::map<std::string, int> countByName;
-
-	for (std::pair<void*, int> item : m_funcPtrs)
-	{
-		std::stringstream nameSS;
-		void* funcStart = GetFuncStartPtr(item.first);
-		memset(symbol->Name, 0, symbol->MaxNameLen);
-		if (SymFromAddr(process, (ULONG64)funcStart, 0, symbol))
-		{
-			nameSS << symbol->Name;
-		}
-		else
-		{
-			DWORD err = GetLastError();
-			nameSS << "Error: " << "<Unknown> at address" << item.first;
-		}
-
-		std::string name = nameSS.str();
-
-		if (countByName.find(name) == countByName.end())
-			countByName.insert({ name, 0 });
-
-		// aggregate counts
-		countByName[name] += item.second; 
-	}
-
-	std::stringstream out;
-	for (std::pair<std::string, int> item : countByName)
-	{
-		std::string funcName = item.first;
-		int callCount = item.second;
-
-		out << "Function: " << funcName << " was caught " << callCount << " time(s).\n";
-	}
-	std::ofstream resultFile;
 	resultFile.open("SamplingResults.txt", std::ios::app);
-	TLOG(out.str());
+	PrintTreeFromNode(m_stackRoot, symbol, 0);
 
-	free(symbol);
-	SymCleanup(process);
+
 }
 
-SamplingProfiler::SamplingProfiler(DWORD threadID, int captureIntervalMs) : m_context({})
+SamplingProfiler::SamplingProfiler(DWORD threadID, int captureIntervalMs) : m_context({}), m_frame({}), m_process(GetCurrentProcess())
 {
 	m_threadHandle = OpenThread(THREAD_SUSPEND_RESUME | THREAD_GET_CONTEXT, FALSE, threadID);
 	
